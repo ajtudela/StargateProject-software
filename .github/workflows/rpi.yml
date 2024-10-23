@@ -9,7 +9,7 @@ on:
 env:
 #   ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
   IMG_DIR: ${{ github.workspace }}/image
-  FIRST_USER_HOME: ${ROOTFS_DIR}/home/${FIRST_USER_NAME}
+  FIRST_USER_HOME: /home/pi
 
 jobs:
   build-pi-image:
@@ -46,6 +46,7 @@ jobs:
           hostname: stargate
           username: pi
           password: sg1
+          disable-first-boot-user-rename: 1
           image-name: sg1_v4
           keyboard-keymap: us
           locale: en_GB.UTF-8
