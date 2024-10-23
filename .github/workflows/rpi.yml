@@ -9,6 +9,7 @@ on:
 env:
 #   ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
   IMG_DIR: ${{ github.workspace }}/image
+  FIRST_USER_HOME: ${ROOTFS_DIR}/home/${FIRST_USER_NAME}
 
 jobs:
   build-pi-image:
@@ -25,44 +26,45 @@ jobs:
 
       - name: Create stargate software installer stage
         run: |
-          mkdir -p stage-custom/package-custom
-          echo "#!/bin/bash" > stage-custom/package-custom/00-run.sh
-          echo "set -e" >> stage-custom/package-custom/00-run.sh
-          echo "export ROLLBAR_TOKEN=${{ secrets.ROLLBAR_TOKEN }}" >> stage-custom/package-custom/00-run.sh
-          echo "apt-get install git -y" >> stage-custom/package-custom/00-run.sh
-          echo "cd ~" >> stage-custom/package-custom/00-run.sh
-          echo "git clone https://github.com/jonnerd154/StargateProject-software.git sg1_v4" >> stage-custom/package-custom/00-run.sh
-          echo "chmod u+x ~/sg1_v4/install/*.sh" >> stage-custom/package-custom/00-run.sh
-          echo "cd ~/sg1_v4/ && wget ${{ secrets.SOUNDFX_URL }}" >> stage-custom/package-custom/00-run.sh
-          echo "mkdir -p soundfx && unzip soundfx.zip -d soundfx && mv soundfx/soundfx soundfx/milkyway" >> stage-custom/package-custom/00-run.sh
-          echo "cd ~/sg1_v4/install && ./install.sh" >> stage-custom/package-custom/00-run.sh
-          chmod +x stage-custom/package-custom/00-run.sh
+          echo "sdsds: ${{ env.FIRST_USER_HOME }}"
+      #     mkdir -p stage-custom/package-custom
+      #     echo "#!/bin/bash" > stage-custom/package-custom/00-run.sh
+      #     echo "set -e" >> stage-custom/package-custom/00-run.sh
+      #     echo "export ROLLBAR_TOKEN=${{ secrets.ROLLBAR_TOKEN }}" >> stage-custom/package-custom/00-run.sh
+      #     echo "apt-get install git unzip -y" >> stage-custom/package-custom/00-run.sh
+      #     echo "cd ${{ env.FIRST_USER_HOME }}" >> stage-custom/package-custom/00-run.sh
+      #     echo "git clone https://github.com/jonnerd154/StargateProject-software.git sg1_v4" >> stage-custom/package-custom/00-run.sh
+      #     echo "chmod u+x ${{ env.FIRST_USER_HOME }}/sg1_v4/install/*.sh" >> stage-custom/package-custom/00-run.sh
+      #     echo "cd ${{ env.FIRST_USER_HOME }}/sg1_v4/ && wget ${{ secrets.SOUNDFX_URL }}" >> stage-custom/package-custom/00-run.sh
+      #     echo "mkdir -p soundfx && unzip soundfx.zip -d soundfx && mv soundfx/soundfx soundfx/milkyway" >> stage-custom/package-custom/00-run.sh
+      #     echo "cd ${{ env.FIRST_USER_HOME }}/sg1_v4/install && ./install.sh" >> stage-custom/package-custom/00-run.sh
+      #     chmod +x stage-custom/package-custom/00-run.sh
 
-      - name: Run pi-gen-action
-        uses: usimd/pi-gen-action@v1
-        id: build
-        with:
-          hostname: stargate
-          username: pi
-          password: sg1
-          image-name: sg1_v4
-          keyboard-keymap: us
-          locale: en_GB.UTF-8
-          enable-ssh: 1
-          export-last-stage-only: true
-          compression: none
-          stage-list: stage0 stage1 stage2 ./stage-custom
+      # - name: Run pi-gen-action
+      #   uses: usimd/pi-gen-action@v1
+      #   id: build
+      #   with:
+      #     hostname: stargate
+      #     username: pi
+      #     password: sg1
+      #     image-name: sg1_v4
+      #     keyboard-keymap: us
+      #     locale: en_GB.UTF-8
+      #     enable-ssh: 1
+      #     export-last-stage-only: true
+      #     compression: none
+      #     stage-list: stage0 stage1 stage2 ./stage-custom
 
-      - name: Rename image
-        env:
-          SOFTWARE_VERSION: ${{ env.SOFTWARE_VERSION }}
-        run: |
-          COMMIT_HASH=${{ github.sha }}
-          IMAGE_NAME="sg1_${SOFTWARE_VERSION}_${COMMIT_HASH:0:7}.img"
-          mv ${{ steps.build.outputs.image-path }} IMG_DIR/$IMAGE_NAME
+      # - name: Rename image
+      #   env:
+      #     SOFTWARE_VERSION: ${{ env.SOFTWARE_VERSION }}
+      #   run: |
+      #     COMMIT_HASH=${{ github.sha }}
+      #     IMAGE_NAME="sg1_${SOFTWARE_VERSION}_${COMMIT_HASH:0:7}.img"
+      #     mv ${{ steps.build.outputs.image-path }} IMG_DIR/$IMAGE_NAME
 
-      - name: Upload image artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: sg1-v4-image
-          path: ${{ env.IMG_DIR }}
+      # - name: Upload image artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: sg1-v4-image
+      #     path: ${{ env.IMG_DIR }}
