@@ -1,0 +1,34 @@
+name: Generate Raspberry Pi OS Image
+
+on:
+  push:
+    branches:
+      - ci
+  workflow_dispatch:
+
+jobs:
+  build-pi-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run pi-gen-action
+        uses: usimd/pi-gen-action@v1
+        id: build
+        with:
+          hostname: stargate
+          username: pi
+          password: sg1
+          image-name: sg1_v4
+          keyboard-keymap: us
+          locale: en_GB.UTF-8
+          enable-ssh: 1
+          export-last-stage-only: true
+          compression: zip
+          compression-level: 6
+          stage-list: stage0 stage1 stage2
+
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: pi-gen-image
+          path: ${{ steps.build.outputs.image-path }}
