@@ -26,9 +26,10 @@ jobs:
 
       - name: Create stargate software installer stage
         run: |
-          echo "sdsds: ${{ env.FIRST_USER_HOME }}"
-      #     mkdir -p stage-custom/package-custom
-      #     echo "#!/bin/bash" > stage-custom/package-custom/00-run.sh
+          mkdir -p stage-custom/package-custom
+          echo "#!/bin/bash" > stage-custom/package-custom/00-run.sh
+          echo 'sdsds: ${{ env.FIRST_USER_HOME }}' >> stage-custom/package-custom/00-run.sh
+          cat stage-custom/package-custom/00-run.sh
       #     echo "set -e" >> stage-custom/package-custom/00-run.sh
       #     echo "export ROLLBAR_TOKEN=${{ secrets.ROLLBAR_TOKEN }}" >> stage-custom/package-custom/00-run.sh
       #     echo "apt-get install git unzip -y" >> stage-custom/package-custom/00-run.sh
