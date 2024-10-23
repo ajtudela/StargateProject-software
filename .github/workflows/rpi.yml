@@ -6,8 +6,8 @@ on:
       - ci
   workflow_dispatch:
 
-env:
-  ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
+# env:
+#   ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
 
 jobs:
   build-pi-image:
@@ -18,14 +18,14 @@ jobs:
           mkdir -p stage-custom/package-custom
           echo "#!/bin/bash" > stage-custom/package-custom/00-run.sh
           echo "set -e" >> stage-custom/package-custom/00-run.sh
-          echo "export ROLLBAR_TOKEN=${{ env.ROLLBAR_TOKEN }}" >> stage-custom/package-custom/00-run.sh
+          echo "export ROLLBAR_TOKEN=${{ secrets.ROLLBAR_TOKEN }}" >> stage-custom/package-custom/00-run.sh
           echo "apt-get install git -y" >> stage-custom/package-custom/00-run.sh
           echo "cd /home/pi" >> stage-custom/package-custom/00-run.sh
           echo "git clone https://github.com/jonnerd154/StargateProject-software.git sg1_v4" >> stage-custom/package-custom/00-run.sh
           echo "chmod u+x /home/pi/sg1_v4/install/*.sh" >> stage-custom/package-custom/00-run.sh
-          # echo "cd /home/pi/sg1_v4/ && wget ${{ secrets.SOUNDFX_URL }}" >> stage-custom/package-custom/00-run.sh"
-          # echo "mkdir -p soundfx && unzip soundfx.zip -d soundfx && mv soundfx/soundfx soundfx/milkyway" >> stage-custom/package-custom/00-run.sh
-          # echo "cd /home/pi/sg1_v4/install && ./install.sh" >> stage-custom/package-custom/00-run.sh
+          echo "cd /home/pi/sg1_v4/ && wget ${{ secrets.SOUNDFX_URL }}" >> stage-custom/package-custom/00-run.sh"
+          echo "mkdir -p soundfx && unzip soundfx.zip -d soundfx && mv soundfx/soundfx soundfx/milkyway" >> stage-custom/package-custom/00-run.sh
+          echo "cd /home/pi/sg1_v4/install && ./install.sh" >> stage-custom/package-custom/00-run.sh
           # chmod +x stage-custom/package-custom/00-run.sh
           cat stage-custom/package-custom/00-run.sh
 
