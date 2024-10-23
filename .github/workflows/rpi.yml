@@ -31,12 +31,12 @@ jobs:
           echo "set -e" >> stage-custom/package-custom/00-run.sh
           echo "export ROLLBAR_TOKEN=${{ secrets.ROLLBAR_TOKEN }}" >> stage-custom/package-custom/00-run.sh
           echo "apt-get update -y && apt-get install git unzip -y" >> stage-custom/package-custom/00-run.sh
-          echo 'cd ${{ env.FIRST_USER_HOME }}' >> stage-custom/package-custom/00-run.sh
-          echo "git clone https://github.com/jonnerd154/StargateProject-software.git sg1_v4" >> stage-custom/package-custom/00-run.sh
-          echo "chmod u+x sg1_v4/install/*.sh" >> stage-custom/package-custom/00-run.sh
-          echo "cd sg1_v4/ && wget ${{ secrets.SOUNDFX_URL }} -O soundfx.zip" >> stage-custom/package-custom/00-run.sh
-          echo "mkdir -p soundfx && unzip soundfx.zip -d soundfx && mv soundfx/soundfx soundfx/milkyway" >> stage-custom/package-custom/00-run.sh
-          echo 'cd ${{ env.FIRST_USER_HOME }}/sg1_v4/install && ./install.sh' >> stage-custom/package-custom/00-run.sh
+          echo 'sudo -u pi cd $HOME' >> stage-custom/package-custom/00-run.sh
+          echo "sudo -u pi git clone https://github.com/jonnerd154/StargateProject-software.git sg1_v4" >> stage-custom/package-custom/00-run.sh
+          echo "sudo -u pi chmod u+x sg1_v4/install/*.sh" >> stage-custom/package-custom/00-run.sh
+          echo "sudo -u pi cd sg1_v4/ && wget ${{ secrets.SOUNDFX_URL }} -O soundfx.zip" >> stage-custom/package-custom/00-run.sh
+          echo "sudo -u pi mkdir -p soundfx && unzip soundfx.zip -d soundfx && mv soundfx/soundfx soundfx/milkyway" >> stage-custom/package-custom/00-run.sh
+          echo 'sudo -u pi cd $HOME/sg1_v4/install && ./install.sh' >> stage-custom/package-custom/00-run.sh
           chmod +x stage-custom/package-custom/00-run.sh
 
       - name: Run pi-gen-action
