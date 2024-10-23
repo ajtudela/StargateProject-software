@@ -30,7 +30,7 @@ jobs:
           echo "#!/bin/bash" > stage-custom/package-custom/00-run.sh
           echo "set -e" >> stage-custom/package-custom/00-run.sh
           echo "export ROLLBAR_TOKEN=${{ secrets.ROLLBAR_TOKEN }}" >> stage-custom/package-custom/00-run.sh
-          echo "apt-get update -y && apt-get install git unzip -y" >> stage-custom/package-custom/00-run.sh
+          echo "apt-get update -y && apt-get install git unzip sudo -y" >> stage-custom/package-custom/00-run.sh
           echo 'sudo -u pi cd $HOME' >> stage-custom/package-custom/00-run.sh
           echo "sudo -u pi git clone https://github.com/jonnerd154/StargateProject-software.git sg1_v4" >> stage-custom/package-custom/00-run.sh
           echo "sudo -u pi chmod u+x sg1_v4/install/*.sh" >> stage-custom/package-custom/00-run.sh
