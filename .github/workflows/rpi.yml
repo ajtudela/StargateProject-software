@@ -29,7 +29,7 @@ jobs:
           echo '#!/bin/bash' > ./.github/stage-sg/01-configs/03-run-chroot.sh
           echo "set -e" >> ./.github/stage-sg/01-configs/03-run-chroot.sh
           echo "echo 'Setting rollbar token'" >> ./.github/stage-sg/01-configs/03-run-chroot.sh
-          echo "sudo echo "export ROLLBAR_TOKEN=${{ secrets.ROLLBAR_TOKEN }}" >> ~/.bashrc" >> ./.github/stage-sg/01-configs/03-run-chroot.sh
+          echo "sudo sh -c 'echo \"export ROLLBAR_TOKEN=${{ secrets.ROLLBAR_TOKEN }}\" >> /etc/bash.bashrc'" >> ./.github/stage-sg/01-configs/03-run-chroot.sh
           chmod +x ./.github/stage-sg/01-configs/03-run-chroot.sh
           cat ./.github/stage-sg/01-configs/03-run-chroot.sh
 
