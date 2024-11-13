@@ -275,5 +275,7 @@ function configure_git() {
   cd /home/pi/sg1_v4/
   ls -la
   git config core.fileMode false
+  ls -la
   sudo git config --system --add safe.directory '*' # Remove warning of dubious ownership in the repository
+  ls -la
 }
