@@ -257,8 +257,6 @@ function configure_wireguard(){
 
 function configure_firewall_ufw() {
   echo 'Configuring firewall'
-
-
   sudo ufw reload
   sudo ufw deny in on any
   sudo ufw allow OpenSSH # Allow SSH
@@ -273,6 +271,7 @@ function configure_firewall_ufw() {
 }
 
 function configure_git() {
+  echo 'Configuring git'
   cd /home/pi/sg1_v4/
   git config core.fileMode false
   sudo git config --system --add safe.directory '*' # Remove warning of dubious ownership in the repository

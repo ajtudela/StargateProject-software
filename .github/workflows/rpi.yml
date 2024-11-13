@@ -2,8 +2,8 @@ name: Generate Raspberry Pi OS Image
 
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - ci
   workflow_dispatch:
 
 env:
@@ -31,6 +31,7 @@ jobs:
           echo "echo 'Setting rollbar token'" >> ./.github/stage-sg/01-configs/03-run-chroot.sh
           echo "sudo echo "export ROLLBAR_TOKEN=${{ secrets.ROLLBAR_TOKEN }}" >> ~/.bashrc" >> ./.github/stage-sg/01-configs/03-run-chroot.sh
           chmod +x ./.github/stage-sg/01-configs/03-run-chroot.sh
+          cat ./.github/stage-sg/01-configs/03-run-chroot.sh
 
       - name: Download the sound files
         run: |
@@ -80,14 +81,14 @@ jobs:
           cd ${{ env.IMG_DIR }}
           zip -r sg1-v4-image.zip ${{ env.IMG_NAME }}
 
-      # - name: Create tag
-      #   uses: rickstaa/action-create-tag@v1
-      #   with:
-      #     tag: ${{ env.SOFTWARE_VERSION }}
+      - name: Create tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ env.SOFTWARE_VERSION }}
 
       - name: Release image
         uses: softprops/action-gh-release@v2
         with:
           name: ${{ env.SOFTWARE_VERSION }}
-          #tag_name: ${{ env.SOFTWARE_VERSION }}
+          tag_name: ${{ env.SOFTWARE_VERSION }}
           files: ${{ env.IMG_DIR }}/sg1-v4-image.zip
