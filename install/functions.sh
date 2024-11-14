@@ -278,6 +278,4 @@ function configure_git() {
   ls -la
   sudo git config --system --add safe.directory '*' # Remove warning of dubious ownership in the repository
   ls -la
-  cd /home/pi
-  sudo chown -R "${FIRST_USER_NAME}":"${FIRST_USER_NAME}" sg1_v4
 }
